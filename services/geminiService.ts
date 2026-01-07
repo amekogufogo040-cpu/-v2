@@ -2,8 +2,13 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { DesignBlueprint, CardOutline } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
+if (!API_KEY) {
+  console.error("错误：未找到 API Key，请检查 Vercel 环境变量设置");
+}
+
+const genAI = new GoogleGenerativeAI(API_KEY);
 /**
  * Utility function to handle API retries with exponential backoff.
  * Especially useful for 429 (Rate Limit) errors.
